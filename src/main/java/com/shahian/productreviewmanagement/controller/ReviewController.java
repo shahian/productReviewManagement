@@ -28,6 +28,11 @@ public class ReviewController {
         Review review1 = reviewService.addReview(productId, review);
         return new ResponseEntity<>(review1, HttpStatus.CREATED);
     }
+    @GetMapping("/v1/unapprovedReviews")
+    public ResponseEntity<List<Review>>getUnapprovedReviews(){
+       List<Review>reviews= reviewService.getUnapprovedReviews();
+       return new ResponseEntity<>(reviews,HttpStatus.OK);
+    }
 }
 
 

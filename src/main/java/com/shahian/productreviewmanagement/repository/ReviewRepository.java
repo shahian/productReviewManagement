@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review>findAllByProductIdAndIsDeletedFalse(Long productId);
     Long countByProductIdAndIsDeletedFalse(Long productId);
+    List<Review>findAllByApprovedFalseAndIsDeletedFalse();
 }

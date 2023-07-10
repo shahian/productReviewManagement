@@ -75,4 +75,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
+    @Override
+    public List<Review> getUnapprovedReviews() {
+        List<Review> UnapprovedReviews = reviewRepository.findAllByApprovedFalseAndIsDeletedFalse();
+        if(UnapprovedReviews.isEmpty()){
+            throw new NullPointerException("list is empty");
+        }
+        return UnapprovedReviews;
+
+    }
+
 }

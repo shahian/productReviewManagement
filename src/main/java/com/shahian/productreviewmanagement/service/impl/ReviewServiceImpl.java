@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
@@ -34,8 +35,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review getReviewById(Long id) {
-        return null;
+        Optional<Review> review = Optional.ofNullable(reviewRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new NullPointerException("is null")));
+        return review.get();
+
     }
+
+    private Review approveReview(Review review) {
+        review.setApproved(true);
+        return reviewRepository.save(review);
+    }
+
 
     // calculate the average rating for a product
     @Override
@@ -58,17 +68,17 @@ public class ReviewServiceImpl implements ReviewService {
         if (reviews.isEmpty()) {
             return null;
         }
-        reviews.stream()
+        return reviews.stream()
                 .sorted(Comparator.comparing(Review::getCreateDateTime).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
 
-        return reviews;
     }
 
     @Override
     public Review addReview(Long productId, Review review) {
-        Product product = productRepository.findByIdAndIsDeletedFalse(productId).orElseThrow(() -> new NullPointerException("not found"));
+        Product product = productRepository.findByIdAndIsDeletedFalse(productId)
+                .orElseThrow(() -> new NullPointerException("not found"));
         review.setProduct(product);
         return reviewRepository.save(review);
 
@@ -78,11 +88,28 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> getUnapprovedReviews() {
         List<Review> UnapprovedReviews = reviewRepository.findAllByApprovedFalseAndIsDeletedFalse();
-        if(UnapprovedReviews.isEmpty()){
+        if (UnapprovedReviews.isEmpty()) {
             throw new NullPointerException("list is empty");
         }
         return UnapprovedReviews;
 
+    }
+
+    @Override
+    public Review approveReviewById(Long reviewId) {
+        Review reviewById = getReviewById(reviewId);
+        return approveReview(reviewById);
+    }
+
+    @Override
+    public Review rejectReviewById(Long reviewId) {
+        Review review  = getReviewById(reviewId);
+        return rejectReviewReview(review);
+    }
+
+    private Review rejectReviewReview(Review review) {
+        review.setApproved(false);
+        return reviewRepository.save(review);
     }
 
 }

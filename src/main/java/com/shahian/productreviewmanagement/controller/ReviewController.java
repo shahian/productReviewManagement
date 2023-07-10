@@ -33,6 +33,23 @@ public class ReviewController {
        List<Review>reviews= reviewService.getUnapprovedReviews();
        return new ResponseEntity<>(reviews,HttpStatus.OK);
     }
+
+    @PutMapping("/v1/approveReview")
+    public ResponseEntity<?> approveReview(@RequestParam  Long reviewId) {
+
+            Review review = reviewService.approveReviewById(reviewId);
+
+            return new ResponseEntity<>("Review has been approved", HttpStatus.OK);
+
+    }
+    @PutMapping("/v1/rejectReview")
+    public ResponseEntity<?> rejectReview(@RequestParam  Long reviewId) {
+
+        Review review = reviewService.rejectReviewById(reviewId);
+
+        return new ResponseEntity<>("Review has been rejected", HttpStatus.OK);
+
+    }
 }
 
 

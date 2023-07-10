@@ -17,4 +17,7 @@ public interface ReviewService {
 
     List<Review> getUnapprovedReviews();
 
+    Review approveReviewById(Long reviewId);
+
+    Review rejectReviewById(Long reviewId);
 }

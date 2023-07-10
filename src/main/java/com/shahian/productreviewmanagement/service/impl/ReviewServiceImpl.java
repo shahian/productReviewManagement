@@ -1,6 +1,8 @@
 package com.shahian.productreviewmanagement.service.impl;
 
+import com.shahian.productreviewmanagement.model.entity.Product;
 import com.shahian.productreviewmanagement.model.entity.Review;
+import com.shahian.productreviewmanagement.repository.ProductRepository;
 import com.shahian.productreviewmanagement.repository.ReviewRepository;
 import com.shahian.productreviewmanagement.service.interfaces.ReviewService;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
+    private final ProductRepository productRepository;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductRepository productRepository) {
         this.reviewRepository = reviewRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> getReviewsByProductId(Long productId) {
         List<Review> reviews = reviewRepository.findAllByProductIdAndIsDeletedFalse(productId);
-        if (reviews.isEmpty()){
+        if (reviews.isEmpty()) {
             return null;
         }
         reviews.stream()
@@ -60,6 +64,15 @@ public class ReviewServiceImpl implements ReviewService {
                 .collect(Collectors.toList());
 
         return reviews;
+    }
+
+    @Override
+    public Review addReview(Long productId, Review review) {
+        Product product = productRepository.findByIdAndIsDeletedFalse(productId).orElseThrow(() -> new NullPointerException("not found"));
+        review.setProduct(product);
+        return reviewRepository.save(review);
+
+
     }
 
 }

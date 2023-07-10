@@ -12,4 +12,6 @@ public interface ReviewService {
     Long getReviewCount(Long productId);
 
     List<Review> getReviewsByProductId(Long productId);
+
+    Review addReview(Long productId, Review review);
 }

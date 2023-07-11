@@ -3,27 +3,29 @@ package com.shahian.productreviewmanagement.service.impl;
 import com.shahian.productreviewmanagement.exception.GeneralFoundException;
 import com.shahian.productreviewmanagement.exception.ProductNotFoundException;
 import com.shahian.productreviewmanagement.exception.ReviewNotFoundException;
+import com.shahian.productreviewmanagement.exception.UserNotFoundException;
 import com.shahian.productreviewmanagement.model.entity.Product;
 import com.shahian.productreviewmanagement.model.entity.Review;
+import com.shahian.productreviewmanagement.model.entity.User;
 import com.shahian.productreviewmanagement.repository.ProductRepository;
 import com.shahian.productreviewmanagement.repository.ReviewRepository;
+import com.shahian.productreviewmanagement.repository.UserRepository;
 import com.shahian.productreviewmanagement.service.interfaces.ReviewService;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductRepository productRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductRepository productRepository, UserRepository userRepository) {
         this.reviewRepository = reviewRepository;
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -76,7 +78,10 @@ public class ReviewServiceImpl implements ReviewService {
     public Review addReview(Long productId, Review review) {
         Product product = productRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new ProductNotFoundException("the product is not exist"));
+        User user = userRepository.findById(1L)
+                .orElseThrow(() -> new UserNotFoundException("the User is not exist"));
         review.setProduct(product);
+        review.setUser(user);
         return reviewRepository.save(review);
 
 
@@ -84,11 +89,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getUnapprovedReviews() {
-        List<Review> UnapprovedReviews = reviewRepository.findAllByApprovedFalseAndIsDeletedFalse();
-        if (UnapprovedReviews.isEmpty()) {
-            return null;
+        List<Review> unapprovedReviews = reviewRepository.findAllByApprovedFalseAndIsDeletedFalse();
+        if (unapprovedReviews.isEmpty()) {
+            return Collections.emptyList();
         }
-        return UnapprovedReviews;
+
+        return unapprovedReviews;
 
     }
 

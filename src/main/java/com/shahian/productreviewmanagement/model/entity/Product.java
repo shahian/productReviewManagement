@@ -1,5 +1,7 @@
 package com.shahian.productreviewmanagement.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shahian.productreviewmanagement.model.Base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +20,9 @@ import java.util.Set;
 @Getter
 @Setter
 @SuperBuilder
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Product extends BaseEntity {
 
     @Id
@@ -33,8 +38,8 @@ public class Product extends BaseEntity {
     @Column(name = "reviewEnabled")
     private boolean reviewEnabled;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-    private Set<Review> reviews;
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Review> reviews;
 
 
 }

@@ -9,6 +9,5 @@ public interface ProductService {
     Product saveProduct(Product product);
     List<Product> getProducts();
     Product getProductById(Long id);
-
     List<ProductDTO> getAllProducts();
 }

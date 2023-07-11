@@ -1,5 +1,8 @@
 package com.shahian.productreviewmanagement.service.impl;
 
+import com.shahian.productreviewmanagement.exception.GeneralFoundException;
+import com.shahian.productreviewmanagement.exception.ProductNotFoundException;
+import com.shahian.productreviewmanagement.exception.ReviewNotFoundException;
 import com.shahian.productreviewmanagement.model.entity.Product;
 import com.shahian.productreviewmanagement.model.entity.Review;
 import com.shahian.productreviewmanagement.repository.ProductRepository;
@@ -24,19 +27,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review saveReview(Review review) {
-        return null;
-    }
-
-    @Override
-    public List<Review> getReviews() {
-        return null;
-    }
-
-    @Override
     public Review getReviewById(Long id) {
         Optional<Review> review = Optional.ofNullable(reviewRepository.findByIdAndIsDeletedFalse(id)
-                .orElseThrow(() -> new NullPointerException("is null")));
+                .orElseThrow(() -> new ReviewNotFoundException("the  Review is not Exist")));
         return review.get();
 
     }
@@ -50,11 +43,15 @@ public class ReviewServiceImpl implements ReviewService {
     // calculate the average rating for a product
     @Override
     public Double calculateAverageRating(Long productId) {
-        List<Review> reviews = reviewRepository.findAllByProductIdAndIsDeletedFalse(productId);
-        OptionalDouble average = reviews.stream()
-                .mapToInt(Review::getRating)
-                .average();
-        return average.isPresent() ? average.getAsDouble() : 0.0;
+        try {
+            List<Review> reviews = reviewRepository.findAllByProductIdAndIsDeletedFalse(productId);
+            OptionalDouble average = reviews.stream()
+                    .mapToInt(Review::getRating)
+                    .average();
+            return average.isPresent() ? average.getAsDouble() : 0.0;
+        } catch (Exception ex) {
+            throw new GeneralFoundException(ex.getMessage());
+        }
     }
 
     // get the count of reviews for a product
@@ -64,6 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getReviewsByProductId(Long productId) {
+
         List<Review> reviews = reviewRepository.findAllByProductIdAndIsDeletedFalse(productId);
         if (reviews.isEmpty()) {
             return null;
@@ -72,13 +70,12 @@ public class ReviewServiceImpl implements ReviewService {
                 .sorted(Comparator.comparing(Review::getCreateDateTime).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
-
     }
 
     @Override
     public Review addReview(Long productId, Review review) {
         Product product = productRepository.findByIdAndIsDeletedFalse(productId)
-                .orElseThrow(() -> new NullPointerException("not found"));
+                .orElseThrow(() -> new ProductNotFoundException("the product is not exist"));
         review.setProduct(product);
         return reviewRepository.save(review);
 
@@ -89,7 +86,7 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> getUnapprovedReviews() {
         List<Review> UnapprovedReviews = reviewRepository.findAllByApprovedFalseAndIsDeletedFalse();
         if (UnapprovedReviews.isEmpty()) {
-            throw new NullPointerException("list is empty");
+            return null;
         }
         return UnapprovedReviews;
 
@@ -103,7 +100,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review rejectReviewById(Long reviewId) {
-        Review review  = getReviewById(reviewId);
+        Review review = getReviewById(reviewId);
         return rejectReviewReview(review);
     }
 

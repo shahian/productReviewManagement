@@ -54,24 +54,21 @@ http://localhost:8088/swagger-ui.html
 *  Outputs: None (HTTP 200 OK if the comment is successfully submitted).
 
      ### 4- Get Unconfirmed Comments API:
-* Endpoint: GET /products/{productId}/unconfirmed-comments
-* Inputs: productId (unique identifier for the product)
+* Endpoint: GET /api/v1/unapprovedReviews
+* Inputs:  
 * Outputs:
      * List of unconfirmed comments and ratings for the product.
-     * Each comment should include commentId, userId, comment content, and rating.
+     * Each comment should include reviewId, userId, productId comment content, and rating.
        
-     ### 4- Approve Comment API:
-
-* Endpoint: PUT /products/{productId}/comments/{commentId}/approve
+     ### 5- Approve Comment API:
+* Endpoint: PUT /api/v1/approveReview
 * Inputs:
-     * productId (unique identifier for the product).
-     * commentId (unique identifier for the comment to be approved).
+     * reviewId (unique identifier for the Review).
 * Outputs: None (HTTP 200 OK if the comment is successfully approved).
+  
      ### 5- Reject Comment API:
-
-* Endpoint: PUT /products/{productId}/comments/{commentId}/reject
+* Endpoint: PUT /api/v1/rejectReview
 * Inputs:
-     * productId (unique identifier for the product).
-     * commentId (unique identifier for the comment to be rejected).
+     * reviewId (unique identifier for the Review).
 * Outputs: None (HTTP 200 OK if the comment is successfully rejected).
 

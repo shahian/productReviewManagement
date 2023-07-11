@@ -13,7 +13,7 @@
 -->
 # productReviewManagement
 ### Design of APIs:
-     1- Get Product Details API:
+    ###  1- Get Product Details API:
 * Endpoint: GET /api/v1/products
 * Inputs:  
 * Outputs:
@@ -22,5 +22,36 @@
      *  Public availability of comments and ratings.
      *  Last three comments on the product.
      *  Average total points and total number of comments for the product.
+    
+     ### 2- Submit Comment and Rating API:
 
+* Endpoint: POST /products/{productId}/comments
+* Inputs:
+     * productId (unique identifier for the product).
+     * userId (unique identifier for the user submitting the comment).
+     * comment (textual content of the comment).
+     * rating (numeric value representing the user's rating for the product).
+*  Outputs: None (HTTP 200 OK if the comment is successfully submitted).
+
+     ### 3- Get Unconfirmed Comments API:
+* Endpoint: GET /products/{productId}/unconfirmed-comments
+* Inputs: productId (unique identifier for the product)
+* Outputs:
+     * List of unconfirmed comments and ratings for the product.
+     * Each comment should include commentId, userId, comment content, and rating.
+       
+     ### 4- Approve Comment API:
+
+* Endpoint: PUT /products/{productId}/comments/{commentId}/approve
+* Inputs:
+     * productId (unique identifier for the product).
+     * commentId (unique identifier for the comment to be approved).
+* Outputs: None (HTTP 200 OK if the comment is successfully approved).
+     ### 5- Reject Comment API:
+
+* Endpoint: PUT /products/{productId}/comments/{commentId}/reject
+* Inputs:
+     * productId (unique identifier for the product).
+     * commentId (unique identifier for the comment to be rejected).
+* Outputs: None (HTTP 200 OK if the comment is successfully rejected).
 

@@ -21,6 +21,7 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+
     @Operation(summary = "getAllProducts",description = "Displaying products by calculating the average score and the number of comments for each product")
     @GetMapping("/v1/products")
     public ResponseEntity<List<ProductDTO>>getAllProducts(){

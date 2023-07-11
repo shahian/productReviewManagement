@@ -11,8 +11,8 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI usersMicroserviceOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Your API Title")
-                        .description("Your API Description")
+                .info(new Info().title("Product Review Manager")
+                        .description("vote and rate to product")
                         .version("1.0"));
     }
 }

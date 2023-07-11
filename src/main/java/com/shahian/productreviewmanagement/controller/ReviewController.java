@@ -41,18 +41,15 @@ public class ReviewController {
     @Operation(summary = "approve Review",description = "Confirmation of the comment given by the admin")
     @PutMapping("/v1/approveReview")
     public ResponseEntity<?> approveReview(@RequestParam  Long reviewId) {
-
             Review review = reviewService.approveReviewById(reviewId);
-
             return new ResponseEntity<>("Review has been approved", HttpStatus.OK);
 
     }
+
     @Operation(summary = "reject  Review",description = "Rejection or disapproval of the comment by the admin")
     @PutMapping("/v1/rejectReview")
     public ResponseEntity<?> rejectReview(@RequestParam  Long reviewId) {
-
         Review review = reviewService.rejectReviewById(reviewId);
-
         return new ResponseEntity<>("Review has been rejected", HttpStatus.OK);
 
     }

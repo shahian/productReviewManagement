@@ -25,9 +25,6 @@ public class BaseEntity {
     @Column(name = "modifyDateTime")
     protected Date modifyDateTime;
 
-
-
-
     @Column(name = "is_deleted")
     protected Boolean isDeleted;
 

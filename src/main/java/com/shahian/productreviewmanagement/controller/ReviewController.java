@@ -31,7 +31,7 @@ public class ReviewController {
         return new ResponseEntity<>(review1, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "threeLatestReviews",description = "Display the last three comments of the desired product according to the last comment registration time")
+    @Operation(summary = "unapproved Reviews",description = "Get Unconfirmed Comments ")
     @GetMapping("/v1/unapprovedReviews")
     public ResponseEntity<List<Review>>getUnapprovedReviews(){
        List<Review>reviews= reviewService.getUnapprovedReviews();

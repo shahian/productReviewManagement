@@ -29,7 +29,7 @@ http://localhost:8088/swagger-ui.html
 
 ## Design of APIs:
 
-    ### 1- Get Products Details API:
+### 1- Get Products Details API:
     
 * Endpoint: GET /api/v1/products
 * Inputs:  
@@ -40,27 +40,27 @@ http://localhost:8088/swagger-ui.html
      *  Last three comments on the product.
      *  Average total points and total number of comments for the product.
        
-     ### 2- Submit Comment and Rating API:
+### 2- Submit Comment and Rating API:
 * Endpoint: GET /api/v1/threeLatestReviews
 * Inputs:
      * productId (unique identifier for the product).
 *  Outputs: Display the last three comments of the desired product according to the last comment registration time.
   
-     ### 3- create Comment and Rating API:
+### 3- create Comment and Rating API:
 * Endpoint: POST /api/v1/review
 * Inputs:
      * productId (unique identifier for the product).
      * Review (Review Object).
 *  Outputs: None (HTTP 200 OK if the comment is successfully submitted).
 
-     ### 4- Get Unconfirmed Comments API:
+### 4- Get Unconfirmed Comments API:
 * Endpoint: GET /api/v1/unapprovedReviews
 * Inputs:  
 * Outputs:
      * List of unconfirmed comments and ratings for the product.
      * Each comment should include reviewId, userId, productId comment content, and rating.
        
-     ### 5- Approve Comment API:
+ ### 5- Approve Comment API:
 * Endpoint: PUT /api/v1/approveReview
 * Inputs:
      * reviewId (unique identifier for the Review).

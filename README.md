@@ -12,8 +12,10 @@
 است)
 -->
 # productReviewManagement
-### Design of APIs:
-    ###  1- Get Product Details API:
+## Design of APIs:
+
+    ### 1- Get Product Details API:
+    
 * Endpoint: GET /api/v1/products
 * Inputs:  
 * Outputs:

@@ -12,6 +12,21 @@
 است)
 -->
 # productReviewManagement
+## Technologies Used
+
+- Java 17
+- Spring Boot 3
+- H2 Database
+- Swagger 3
+## Swagger API Documentation
+
+The API documentation is generated using Swagger 3. To explore the endpoints and interact with the API, follow these steps:
+
+1. Make sure the application is running locally.
+2. Open your web browser and navigate to the following URL:
+http://localhost:8088/swagger-ui.html
+
+
 ## Design of APIs:
 
     ### 1- Get Product Details API:

@@ -37,10 +37,9 @@ http://localhost:8088/swagger-ui.html
      *  Product details including name, price, reviewEnabled averageRating, andreviewCount.
      *  Commenting and voting options enabled/disabled for the product.
      *  Public availability of comments and ratings.
-     *  Last three comments on the product.
      *  Average total points and total number of comments for the product.
        
-### 2- Submit Comment and Rating API:
+### 2- GET last three comments API:
 * Endpoint: GET /api/v1/threeLatestReviews
 * Inputs:
      * productId (unique identifier for the product).
